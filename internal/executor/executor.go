@@ -16,8 +16,15 @@ type Config struct {
 	ConnMaxLifetime time.Duration
 }
 
+type Querier interface {
+	ExecContext(ctx context.Context, query string, args ...any) (sql.Result, error)
+	QueryContext(ctx context.Context, query string, args ...any) (*sql.Rows, error)
+	QueryRowContext(ctx context.Context, query string, args ...any) *sql.Row
+}
+
 type Executor struct {
 	db *sql.DB
+	Querier
 }
 
 func New(cfg Config) (*Executor, error) {
@@ -39,7 +46,7 @@ func New(cfg Config) (*Executor, error) {
 		db.SetConnMaxLifetime(cfg.ConnMaxLifetime)
 	}
 
-	return &Executor{db: db}, nil
+	return &Executor{db: db, Querier: db}, nil
 }
 
 func (e *Executor) Ping(ctx context.Context) error {

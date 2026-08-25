@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/arafat2020/go-phinix/internal/executor"
+	"github.com/arafat2020/go-phoenix/internal/executor"
 )
 
 func main() {
