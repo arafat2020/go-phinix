@@ -16,3 +16,5 @@ type Predicate struct {
 	Op     Op
 	Value  any
 }
+
+func (Predicate) isNode() {}
